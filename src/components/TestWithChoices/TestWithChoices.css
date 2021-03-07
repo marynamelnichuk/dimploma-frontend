@@ -1,0 +1,20 @@
+.checkbox-test-label {
+    padding-left: 2%;
+    width: 95%;
+}
+
+.checkbox-test-variant{
+    background: #e2e3e5;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 0.2rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.checkbox-test-variant:hover{
+    background: #d6d8d9;
+}
+.checkbox-test-header {
+    background: #cce5ff;
+}

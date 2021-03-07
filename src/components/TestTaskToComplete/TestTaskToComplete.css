@@ -1,0 +1,11 @@
+.container-inner {
+    padding: 4%;
+}
+
+.nav-item-label{
+    color: black;
+    font-size: 1.5rem;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    padding-bottom: 2%;
+    word-break: break-all;
+}

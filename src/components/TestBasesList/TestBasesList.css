@@ -1,0 +1,9 @@
+.test-bases-container {
+    background-color: aliceblue;
+    height: auto;
+    min-height: 100vh;
+}
+
+.test-bases-container-inner {
+    padding: 4%;
+}

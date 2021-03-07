@@ -1,0 +1,14 @@
+.light-grey-background-color {
+    background-color: #f6f6f6;
+    min-height: 100vh;
+}
+
+.sign-form {
+    width: 35%;
+    padding-top: 10%;
+    margin: auto;
+}
+
+.divider {
+    border-top: 2px solid #5a6268;
+}
