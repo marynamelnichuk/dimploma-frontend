@@ -45,7 +45,7 @@ class TestWithChoices extends React.Component {
         return (
             <Card>
                 <div>
-                    <Card.Header className="checkbox-test-header"> {test.question} </Card.Header>
+                    <Card.Header className={this.props.viewMode ? "" : "checkbox-test-header"}> {test.question} </Card.Header>
                     <Card.Body>
                         <div key={test.id}>
                             <div>
@@ -53,6 +53,7 @@ class TestWithChoices extends React.Component {
                                     <div key={variant.id} className="checkbox-test-variant">
                                         <input type={testType} id={variant.id} name={test.id}
                                                defaultChecked={false}
+                                               disabled={this.props.viewMode}
                                                onChange={() => this.onOptionSelect(variant.id)}/>
                                         <label htmlFor={variant.id}
                                                className="checkbox-test-label">{variant.response}</label>
@@ -61,6 +62,11 @@ class TestWithChoices extends React.Component {
                             </div>
                         </div>
                     </Card.Body>
+                    {test.correctAnswer ? <Card.Footer className="light-green-background">
+                    <span>
+                        <span className="correct-answer">Correct answer: </span>
+                        {test.correctAnswer}</span>
+                    </Card.Footer> : <span/>}
                 </div>
             </Card>
         );

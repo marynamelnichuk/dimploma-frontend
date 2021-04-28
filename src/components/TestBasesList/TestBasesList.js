@@ -8,12 +8,30 @@ import TestBaseCreateForm from "../TestBaseCreateForm/TestBaseCreateForm";
 
 export default class TestBasesList extends React.Component {
 
+    componentDidMount() {
+        fetch('http://localhost:8080/1/testbases')
+            .then(response => response.json())
+            .then(data => {
+                this.setState(({testBases}) => {
+                    const testBasesToSet = data.map(elem => {
+                        return {
+                            ...elem,
+                            title: elem.name
+                        }
+                    })
+                    return {
+                        testBases: testBasesToSet
+                    }
+                });
+            });
+    }
+
     state = {
         testBases: [
-            {id: '1', title: 'Geography Test', description: 'Some description', createdDate: '2020-12-28'},
+            /*{id: '1', title: 'Geography Test', description: 'Some description', createdDate: '2020-12-28'},
             {id: '2', title: 'Geography Test2', description: 'Some description2', createdDate: '2021-12-28'},
             {id: '3', title: 'Geography Test3', description: 'Some description3', createdDate: '2021-12-28'},
-            {id: '4', title: 'Geography Test4', description: 'Some description4', createdDate: '2021-12-28'}
+            {id: '4', title: 'Geography Test4', description: 'Some description4', createdDate: '2021-12-28'}*/
         ],
         addTestBase: false
     }
@@ -30,18 +48,37 @@ export default class TestBasesList extends React.Component {
     }
 
     onAddTestBase = (testBase) => {
-        const testBaseToAdd = {
+        /*const testBaseToAdd = {
             id: this.state.testBases.length + 1,
             title: testBase.title,
             description: testBase.description,
             createdDate: testBase.createdDate
-        };
-        this.setState(({testBases, addTestBase}) => {
+        };   */
+        const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({name: testBase.title,
+                    category: testBase.category,
+                    description: testBase.description,
+                })
+            };
+            fetch('http://localhost:8080/1/testbases', requestOptions)
+                .then(response => response.json())
+                .then(data => this.setState(({testBases, addTestBase}) => {
+                                  return {
+                                      testBases: [...testBases, {
+                                          ...data,
+                                          title: data.name
+                                      }],
+                                      addTestBase: !addTestBase
+                                  }
+                              }));
+        /*this.setState(({testBases, addTestBase}) => {
             return {
                 testBases: [...testBases, testBaseToAdd],
                 addTestBase: !addTestBase
             }
-        });
+        });   */
     }
 
     onAddTestBaseClicked = () => {

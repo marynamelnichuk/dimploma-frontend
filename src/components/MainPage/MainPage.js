@@ -2,8 +2,8 @@ import React from "react";
 import MainSideBar from "../MainSideBar/MainSideBar";
 import TestBasesList from "../TestBasesList/TestBasesList";
 import './MainPage.css';
-import TestTaskToComplete from "../TestTaskToComplete/TestTaskToComplete";
-
+import TestTaskList from "../TestTaskList/TestTaskList";
+import RespondentsList from "../RespondentsList/RespondentsList";
 
 class MainPage extends React.Component {
 
@@ -24,7 +24,10 @@ class MainPage extends React.Component {
             this.updateState(<TestBasesList />);
         }
         if(label === 'Test tasks') {
-            this.updateState(<TestTaskToComplete />);
+            this.updateState(<TestTaskList />);
+        }
+        if(label === 'Respondents') {
+            this.updateState(<RespondentsList />);
         }
     }
 

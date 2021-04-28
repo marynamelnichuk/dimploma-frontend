@@ -7,10 +7,11 @@ class TestBaseCreateForm extends React.Component {
 
     state = {
         title: '',
-        description: ''
+        description: '',
+        category: ''
     };
 
-    formatDate = ()  => {
+    /*formatDate = ()  => {
         let d = new Date(),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -22,13 +23,13 @@ class TestBaseCreateForm extends React.Component {
             day = '0' + day;
 
         return [year, month, day].join('-');
-    }
+    }*/
 
     onSubmit = (event) => {
         this.props.onAddTestBase({
             title: this.state.title,
-            description: this.state.description,
-            createdDate: this.formatDate()
+            category: this.state.category,
+            description: this.state.description
         });
     }
 
@@ -36,6 +37,14 @@ class TestBaseCreateForm extends React.Component {
         this.setState(({title}) => {
             return {
                 title: event.target.value
+            }
+        })
+    }
+
+    onCategoryChange = (event) => {
+        this.setState(({category}) => {
+            return {
+                category: event.target.value
             }
         })
     }
@@ -66,7 +75,7 @@ class TestBaseCreateForm extends React.Component {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Category</Form.Label>
-                                    <Form.Control type="text" placeholder="Category" />
+                                    <Form.Control type="text" placeholder="Category" onChange={this.onCategoryChange}/>
                                 </Form.Group>
                                 <Form.Group controlId="exampleForm.ControlTextarea1">
                                     <Form.Label>Description</Form.Label>

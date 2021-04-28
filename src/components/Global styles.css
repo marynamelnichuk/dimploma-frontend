@@ -13,3 +13,20 @@
     height: auto;
     min-height: 100vh;
 }
+
+.container-inner-padding {
+    padding: 4%;
+}
+
+.light-green-background {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.correct-answer {
+    font-weight: 500;
+}
+
+.margin-2 {
+    margin-bottom: 2%;
+}

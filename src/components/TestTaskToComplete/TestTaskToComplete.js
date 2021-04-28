@@ -56,13 +56,16 @@ class TestTaskToComplete extends React.Component {
     }
 
     render() {
+
+
         const tests = this.state.tests;
         const testQuestions = tests.map(test => {
-            return <TestQuestion key={test.id} {...test} onTestTaskFilled={this.onTestTaskFilled}/>
+            return <TestQuestion key={test.id} viewMode={false} {...test} onTestTaskFilled={this.onTestTaskFilled}/>
         });
 
         return (
             <div className="container-inner">
+                <p>{this.props.match.params.catId}</p>
                 <div className="nav-item-label">{this.state.testTitle}</div>
                 {testQuestions}
                 <Button as="input" type="button" value={FINISH_TEST_BUTTON_LABEL} onClick={this.onFinishTestTask}/>

@@ -8,13 +8,13 @@ const TestQuestion = (props) => {
 
     const initTest = (test) => {
         if(test.type === MULTIPLE_CHOICE){
-            return <TestWithChoices test={test} onOptionSelected={props.onTestTaskFilled}/>
+            return <TestWithChoices viewMode={props.viewMode} test={test} onOptionSelected={props.onTestTaskFilled}/>
         }
         if(test.type === SINGLE_CHOICE){
-            return <TestWithChoices test={test} onOptionSelected={props.onTestTaskFilled}/>
+            return <TestWithChoices viewMode={props.viewMode} test={test} onOptionSelected={props.onTestTaskFilled}/>
         }
         if(test.type === SHORT_ANSWER){
-            return <TestWithShortAnswer {...test} onAnswerChanged={props.onTestTaskFilled}/>
+            return <TestWithShortAnswer {...test} viewMode={props.viewMode}  onAnswerChanged={props.onTestTaskFilled}/>
         }
     }
 
