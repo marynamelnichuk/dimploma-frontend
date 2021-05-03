@@ -2,7 +2,7 @@ import React from "react";
 import MainSideBar from "../MainSideBar/MainSideBar";
 import TestBasesList from "../TestBasesList/TestBasesList";
 import './MainPage.css';
-import TestTaskList from "../TestTaskList/TestTaskList";
+import TestTaskList from "../TestsList/TestsList";
 import RespondentsList from "../RespondentsList/RespondentsList";
 
 class MainPage extends React.Component {

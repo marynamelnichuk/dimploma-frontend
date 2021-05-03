@@ -30,3 +30,13 @@
 .margin-2 {
     margin-bottom: 2%;
 }
+
+.aliceblue-back {
+    background-color: aliceblue;
+    height: auto;
+    min-height: 100vh;
+}
+
+.back-white {
+    background-color: white;
+}

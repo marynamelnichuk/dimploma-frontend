@@ -28,16 +28,16 @@ class RespondentsList extends React.Component {
         })
 
         return (
-            <div className="container-inner-padding">
+            <div className="container-inner-padding aliceblue-back">
                 <Row className="mb-3">
-                    <Col><h2>Respondents</h2></Col>
+                    <Col><h2>Призначені тести</h2></Col>
                     <Col><Button variant="primary" size="md" active className="float-right">
                         <Row className="margin-auto">
                             Assign respondent
                         </Row>
                     </Button></Col>
                 </Row>
-                <Table striped bordered hover size="sm">
+                <Table striped bordered hover size="sm" className="back-white">
                     <thead>
                     <tr>
                         <th>#</th>

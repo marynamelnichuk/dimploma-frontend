@@ -7,7 +7,7 @@ import {withRouter} from "react-router-dom";
 const MainContainer = (props) => {
 
     const onNavClick = (label) => {
-        console.log('Nav click');
+        console.log('Nav click 2222');
         if(label === 'Test bases') {
             props.history.push(`/main/testbases`);
             //this.updateState(<TestBasesList />);

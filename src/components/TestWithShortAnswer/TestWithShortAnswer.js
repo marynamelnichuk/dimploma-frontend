@@ -16,14 +16,14 @@ const TestWithShortAnswer = ({question, id, correctAnswer, onAnswerChanged, view
                 <Card.Body>
                     <div key={id}>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Your answer:</Form.Label>
-                            <Form.Control placeholder="Your answer" onChange={onAnswerChange} disabled={viewMode}/>
+                            <Form.Label>Ваша відповідь:</Form.Label>
+                            <Form.Control placeholder="Введіть відповідь" onChange={onAnswerChange} disabled={viewMode}/>
                         </Form.Group>
                     </div>
                 </Card.Body>
                 {correctAnswer ? <Card.Footer className="light-green-background">
                     <span>
-                        <span className="correct-answer">Correct answer: </span>
+                        <span className="correct-answer">Правильна відповідь: </span>
                         {correctAnswer}</span>
                 </Card.Footer> : <span/>}
             </div>

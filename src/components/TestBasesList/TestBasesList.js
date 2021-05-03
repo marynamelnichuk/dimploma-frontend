@@ -100,14 +100,14 @@ export default class TestBasesList extends React.Component {
                 {this.state.addTestBase ? <TestBaseCreateForm onAddTestBase={this.onAddTestBase}/> :
                     <div className="test-bases-container">
                         <div className="test-bases-container-inner">
-                            <h2>Tests Bases</h2>
-                            <p>Welcome to the tests manager. Create new tests.
-                                Manage existing ones. Edit, delete, copy, filter and group them into categories.
+                            <h2>Бази тестових завдань</h2>
+                            <p>
+                                На цій сторінці ви можете створювати та видаляти бази тестових завдань, для додавання тестових завдань до конкретної бази клікніть по ній.
                             </p>
                             <div className="panel-creating-tes-base">
                                 <Button variant="primary" size="lg" active onClick={this.onAddTestBaseClicked}>
                                     <Row className="margin-auto">
-                                        <Col xs="10" className="margin-auto">New test base</Col>
+                                        <Col xs="10" className="margin-auto">Нова база</Col>
                                         <Col xs="2"><IoAdd size={28}/></Col>
                                     </Row>
                                 </Button>

@@ -11,7 +11,7 @@ class TestBaseCreateForm extends React.Component {
         category: ''
     };
 
-    /*formatDate = ()  => {
+    formatDate = ()  => {
         let d = new Date(),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -22,8 +22,9 @@ class TestBaseCreateForm extends React.Component {
         if (day.length < 2)
             day = '0' + day;
 
-        return [year, month, day].join('-');
-    }*/
+        return "2021-09-10";
+        //[year, month, day].join('-');
+    }
 
     onSubmit = (event) => {
         this.props.onAddTestBase({
@@ -61,28 +62,28 @@ class TestBaseCreateForm extends React.Component {
         return (
             <div className="blue-back">
                 <div className="test-base-create-form">
-                    <h2>Creating a new test base</h2>
-                    <Card>
+                    <h2>Створення нової бази тестових завдань</h2>
+                    <Card className="mt-3">
                         <Card.Body>
                             <Form>
                                 <Form.Group>
-                                    <Form.Label column sm="2">Created </Form.Label>
-                                    <Form.Control type="text" readOnly disabled defaultValue={new Date().toString()}/>
+                                    <Form.Label>Назва</Form.Label>
+                                    <Form.Control type="text" placeholder="Назва" onChange={this.onTitleCahnge} />
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Name" onChange={this.onTitleCahnge} />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Category</Form.Label>
-                                    <Form.Control type="text" placeholder="Category" onChange={this.onCategoryChange}/>
+                                    <Form.Label>Категорія</Form.Label>
+                                    <Form.Control type="text" placeholder="Категорія" onChange={this.onCategoryChange}/>
                                 </Form.Group>
                                 <Form.Group controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>Description</Form.Label>
+                                    <Form.Label>Опис</Form.Label>
                                     <Form.Control as="textarea" rows={5} onChange={this.onDescriptionChange}/>
                                 </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Створено</Form.Label>
+                                    <Form.Control type="text" readOnly disabled defaultValue={(new Date()).toISOString().split('T')[0]}/>
+                                </Form.Group>
                                 <Button variant="primary" size="lg" active className="next-button" onClick={this.onSubmit}>
-                                    NEXT
+                                    Зберегти
                                 </Button>
                             </Form>
                         </Card.Body>

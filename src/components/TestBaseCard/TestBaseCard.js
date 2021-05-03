@@ -10,16 +10,15 @@ const TestBaseCard = (props) => {
     const {id, createdDate, title, description, onDelete} = props;
 
     const onTestCardClick = (testCardId) => {
-        //console.log('Nav click');
         console.log('Card clicked!')
         props.history.push(`/main/testbases/${testCardId}`);
     }
 
     return (
-        <Card key={id} text='dark' className="mb-2 test-base-card-container" onClick={() => onTestCardClick(id)}>
+        <Card key={id} text='dark' className="mb-2 test-base-card-container">
             <Card.Header>
                 <Row className="display-flex">
-                    <Col xs="10" className="margin-auto">Created on: {createdDate}</Col>
+                    <Col xs="10" className="margin-auto">Створено:   {createdDate}</Col>
                     <Col xs="2">
                         <Button variant="secondary" onClick={onDelete}>
                             <IoTrashSharp/>
@@ -27,7 +26,7 @@ const TestBaseCard = (props) => {
                     </Col>
                 </Row>
             </Card.Header>
-            <Card.Body>
+            <Card.Body onClick={() => onTestCardClick(id)}>
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>
                     {description}

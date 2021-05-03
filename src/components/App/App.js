@@ -6,7 +6,7 @@ import MainContainer from "../MainContainer/MainContainer";
 import TestTaskToComplete from "../TestTaskToComplete/TestTaskToComplete";
 import TestBasesList from "../TestBasesList/TestBasesList";
 import RespondentsList from "../RespondentsList/RespondentsList";
-import TestTaskList from "../TestTaskList/TestTaskList";
+import TestTaskList from "../TestsList/TestsList";
 import TestBaseViewTasks from "../TestBaseViewTasks/TestBaseViewTasks";
 
 const App = () => {
