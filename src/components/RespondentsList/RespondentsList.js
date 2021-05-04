@@ -1,16 +1,27 @@
 import React from "react";
 import {Button, Col, Row, Table} from "react-bootstrap";
 import '../Global styles.css';
+import TestCreateForm from "../TestCreateForm/TestCreateForm";
+import RespondentCreateForm from "../RespondentCreateForm/RespondentCreateForm";
 
 class RespondentsList extends React.Component {
 
     state = {
       respondents: [
-          {id: 1, testLabel: 'My test', respondent: 'Sophia', dueDate: '07/04/2000', status: 'assigned', mark: 'none'},
-          {id: 2, testLabel: 'My test', respondent: 'Sasha', dueDate: '07/04/2030', status: 'completed', mark: '10/15'}
-      ]
+          {id: 1, user: 'sofiia.predko.kn.2017@lpnu.ua', test: 'Тест перевірки знань Java', dueDate: '2021-06-04', status: 'Призначено'},
+          {id: 2, user: 'mariia.petliakivska.kn.2017@lpnu.ua', test: 'Тест перевірки знань Python', dueDate: '2021-10-04', status: 'Виконано'}
+      ],
+        addRespondent: false,
     };
 
+
+    onAddRespondent = () => {
+        this.setState(() => {
+            return {
+                addRespondent: true
+            }
+        });
+    }
 
     render() {
 
@@ -18,40 +29,39 @@ class RespondentsList extends React.Component {
             return (
                 <tr>
                     <td>{index++}</td>
-                    <td>{respondent.testLabel}</td>
-                    <td>{respondent.respondent}</td>
+                    <td>{respondent.user}</td>
+                    <td>{respondent.test}</td>
                     <td>{respondent.dueDate}</td>
                     <td>{respondent.status}</td>
-                    <td>{respondent.mark}</td>
                 </tr>
             )
         })
 
         return (
             <div className="container-inner-padding aliceblue-back">
-                <Row className="mb-3">
+                {this.state.addRespondent ? <RespondentCreateForm/> :
+                    <span><Row className="mb-3">
                     <Col><h2>Призначені тести</h2></Col>
-                    <Col><Button variant="primary" size="md" active className="float-right">
+                    <Col><Button variant="primary" size="md" active className="float-right" onClick={this.onAddRespondent}>
                         <Row className="margin-auto">
-                            Assign respondent
+                            Призначити тест
                         </Row>
                     </Button></Col>
                 </Row>
                 <Table striped bordered hover size="sm" className="back-white">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Test</th>
-                        <th>Respondent</th>
-                        <th>Due date</th>
-                        <th>Status</th>
-                        <th>Mark</th>
+                        <th>Номер</th>
+                        <th>Користувач</th>
+                        <th>Тест</th>
+                        <th>Статус</th>
+                        <th>Кінцевий термін</th>
                     </tr>
                     </thead>
                     <tbody>
                         {respondents}
                     </tbody>
-                </Table>
+                </Table></span> }
             </div>
         )
     }

@@ -20,6 +20,14 @@ const MainContainer = (props) => {
             props.history.push(`/main/respondents`);
             //this.updateState(<RespondentsList />);
         }
+        if(label === 'Test results') {
+            props.history.push(`/main/testresults`);
+            //this.updateState(<RespondentsList />);
+        }
+        if(label === 'My results') {
+            props.history.push(`/main/myresults`);
+            //this.updateState(<RespondentsList />);
+        }
 
     }
 

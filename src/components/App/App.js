@@ -8,6 +8,8 @@ import TestBasesList from "../TestBasesList/TestBasesList";
 import RespondentsList from "../RespondentsList/RespondentsList";
 import TestTaskList from "../TestsList/TestsList";
 import TestBaseViewTasks from "../TestBaseViewTasks/TestBaseViewTasks";
+import TestResultList from "../TestResultList/TestResultList";
+import MyResultsList from "../MyResultsList/MyResultsList";
 
 const App = () => {
     return (
@@ -30,6 +32,12 @@ const App = () => {
             </Route>
             <Route path="/main/respondents">
                 <MainContainer componentToDisplay={<RespondentsList/>}/>
+            </Route>
+            <Route path="/main/testresults">
+                <MainContainer componentToDisplay={<TestResultList/>}/>
+            </Route>
+            <Route path="/main/myresults">
+                <MainContainer componentToDisplay={<MyResultsList/>}/>
             </Route>
         </Switch>
     );
