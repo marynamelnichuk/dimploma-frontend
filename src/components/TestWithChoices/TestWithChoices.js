@@ -49,23 +49,23 @@ class TestWithChoices extends React.Component {
                     <Card.Body>
                         <div key={test.id}>
                             <div>
-                                {test.variants.map(variant =>
-                                    <div key={variant.id} className="checkbox-test-variant">
-                                        <input type={testType} id={variant.id} name={test.id}
+                                {test.options.map(option =>
+                                    <div key={option.id} className="checkbox-test-variant">
+                                        <input type={testType} id={option.id} name={test.id}
                                                defaultChecked={false}
                                                disabled={this.props.viewMode}
-                                               onChange={() => this.onOptionSelect(variant.id)}/>
-                                        <label htmlFor={variant.id}
-                                               className="checkbox-test-label">{variant.response}</label>
+                                               onChange={() => this.onOptionSelect(option.id)}/>
+                                        <label htmlFor={option.id}
+                                               className="checkbox-test-label">{option.option}</label>
                                     </div>
                                 )}
                             </div>
                         </div>
                     </Card.Body>
-                    {test.correctAnswer ? <Card.Footer className="light-green-background">
+                    {test.correctQuestion ? <Card.Footer className="light-green-background">
                     <span>
                         <span className="correct-answer">Правильна відповідь: </span>
-                        {test.correctAnswer}</span>
+                        {test.correctQuestion}</span>
                     </Card.Footer> : <span/>}
                 </div>
             </Card>

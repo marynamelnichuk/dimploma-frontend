@@ -1,6 +1,7 @@
 import React from "react";
 import SignInForm from "../SignInForm/SignInForm";
 import './SignPage.css';
+import {withRouter} from "react-router-dom";
 
 class SignInPage extends React.Component {
 
@@ -13,4 +14,4 @@ class SignInPage extends React.Component {
     }
 }
 
-export default SignInPage;
+export default withRouter(SignInPage);

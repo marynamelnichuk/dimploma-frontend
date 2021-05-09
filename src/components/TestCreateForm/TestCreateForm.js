@@ -5,16 +5,16 @@ import '../Global styles.css';
 class TestCreateForm extends React.Component {
 
     state = {
-        testName: null,
+        name: null,
         tasksNumber: null,
-        testBase: null,
+        testBaseName: null,
         totalMark: null
     };
 
     onTestNameChange = (event) => {
         this.setState(() => {
             return {
-                testName: event.target.value
+                name: event.target.value
             }
         })
     }
@@ -30,7 +30,7 @@ class TestCreateForm extends React.Component {
     onTestBaseChange = (event) => {
         this.setState(() => {
             return {
-                testBase: event.target.value
+                testBaseName: event.target.value
             }
         })
     }
@@ -45,9 +45,9 @@ class TestCreateForm extends React.Component {
 
     onSubmit = (event) => {
         this.props.onAddTest({
-            testName: this.state.testName,
+            name: this.state.name,
             tasksNumber: this.state.tasksNumber,
-            testBase: this.state.testBase,
+            testBaseName: this.state.testBaseName,
             totalMark: this.state.totalMark
         });
     }

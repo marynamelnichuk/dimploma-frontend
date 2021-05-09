@@ -2,17 +2,37 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {withRouter} from "react-router-dom";
 
 class SignUpForm extends React.Component {
 
-    state = {}
+    state = {};
 
     onSignUp = () => {
-        console.log('sign up : ' , this.state.firstName);
+        if(this.state.email && this.state.password && this.state.firstName && this.state.lastName) {
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: this.state.email,
+                    password: this.state.password,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName
+                })
+            };
+            fetch('http://localhost:8080/signUp', requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                        this.setState(() => {
+                            return {}
+                        });
+                        this.props.history.push(`/signIn`);
+                    });
+        }
     }
 
     onFirstNameChange = (event) => {
-        this.setState(({firstName}) => {
+        this.setState(() => {
             return {
                 firstName: event.target.value
             }
@@ -20,7 +40,7 @@ class SignUpForm extends React.Component {
     }
 
     onLastNameChange = (event) => {
-        this.setState(({lastName}) => {
+        this.setState(() => {
             return {
                 lastName: event.target.value
             }
@@ -28,7 +48,7 @@ class SignUpForm extends React.Component {
     }
 
     onEmailChange = (event) => {
-        this.setState(({email}) => {
+        this.setState(() => {
             return {
                 email: event.target.value
             }
@@ -36,7 +56,7 @@ class SignUpForm extends React.Component {
     }
 
     onPasswordChange = (event) => {
-        this.setState(({password}) => {
+        this.setState(() => {
             return {
                 password: event.target.value
             }
@@ -46,29 +66,26 @@ class SignUpForm extends React.Component {
     render() {
         return (
             <Container className="container-center z-depth-5">
-                <p className="login-title">Sign up</p>
+                <p className="login-title">Реєстрація в Test Builder</p>
                 <Form>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>First name</Form.Label>
-                        <Form.Control placeholder="First name" onChange={this.onFirstNameChange}/>
+                        <Form.Label>Ім'я</Form.Label>
+                        <Form.Control required placeholder="Введіть ім'я" onChange={this.onFirstNameChange}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Last name</Form.Label>
-                        <Form.Control placeholder="Last name" onChange={this.onLastNameChange}/>
+                        <Form.Label>Прізвище</Form.Label>
+                        <Form.Control required placeholder="Введіть прізвище" onChange={this.onLastNameChange}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={this.onEmailChange}/>
+                        <Form.Label>Електронна пошта</Form.Label>
+                        <Form.Control required type="email" placeholder="Введіть електронну пошту" onChange={this.onEmailChange}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange}/>
+                        <Form.Label>Пароль</Form.Label>
+                        <Form.Control required type="password" placeholder="Введіть пароль" onChange={this.onPasswordChange}/>
                     </Form.Group>
-                    <div>
-                        <hr className="divider"/>
-                    </div>
                     <Button variant="primary" type="submit" className="login-button" onClick={this.onSignUp}>
-                        Sign up
+                        Зареєструватися
                     </Button>
                 </Form>
             </Container>
@@ -76,4 +93,4 @@ class SignUpForm extends React.Component {
     }
 }
 
-export default SignUpForm;
+export default withRouter(SignUpForm);

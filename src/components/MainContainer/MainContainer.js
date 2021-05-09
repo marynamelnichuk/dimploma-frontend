@@ -13,7 +13,7 @@ const MainContainer = (props) => {
             //this.updateState(<TestBasesList />);
         }
         if(label === 'Test tasks') {
-            props.history.push(`/main/testtasks`);
+            props.history.push(`/main/tests`);
             //this.updateState(<TestTaskList />);
         }
         if(label === 'Respondents') {

@@ -10,17 +10,30 @@ class TestsList extends React.Component {
 
     state = {
         tests: [
-            {id: '1', testName: 'Тест з георграфії на 8 завдань', tasksNumber: 8,
+            /*{id: '1', testName: 'Тест з георграфії на 8 завдань', tasksNumber: 8,
                 testBase: 'База тестових завдань з географії', totalMark: 10},
             {id: '2', testName: 'Тест з георграфії на 20 завдань', tasksNumber: 20,
                 testBase: 'База тестових завдань з географії', totalMark: 40},
             {id: '3', testName: 'Тест перевірки знань Java', tasksNumber: 15,
                 testBase: 'База тестових завдань для перевірки знання Java', totalMark: 100},
             {id: '4', testName: 'Тест перевірки знань Python', tasksNumber: 20,
-                testBase: 'База тестових завдань для перевірки знання Python', totalMark: 200},
+                testBase: 'База тестових завдань для перевірки знання Python', totalMark: 200},*/
                     ],
         addTest: false
     }
+
+    componentDidMount() {
+        fetch(`http://localhost:8080/1/tests`)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(({testBaseInfo}) => {
+                    return {
+                        tests: data
+                    }
+                });
+            });
+    }
+
 
     onClickRef = (testTaskId) => {
         const testTask = this.state.tests.find(testTask => testTask.id === testTaskId);
@@ -37,13 +50,38 @@ class TestsList extends React.Component {
     }
 
     onAddedTest = (test) => {
-        this.setState(({tests, addTest}) => {
-            return {
-                tests: [...tests, test],
-                addTest: !addTest
-            }
-        });
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(test)
+        };
+        fetch('http://localhost:8080/1/tests', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(({tests, addTest}) => {
+                    return {
+                        tests: [...tests, {id:data.id, ...test}],
+                        addTest: !addTest
+                    }
+                });
+            });
+
         console.log('ON ADDED');
+    }
+
+    onDeleteTest = (event, id) => {
+        fetch(`http://localhost:8080/1/tests/${id}`, { method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}})
+            .then(() =>
+                this.setState(({tests}) => {
+                    const index = tests.findIndex((el) => el.id === id);
+                    const testsBefore = tests.slice(0, index);
+                    const testsAfter = tests.slice(index + 1, tests.length);
+                    return {
+                        tests: [...testsBefore, ...testsAfter]
+                    }
+                })
+            );
     }
 
     render() {
@@ -51,15 +89,16 @@ class TestsList extends React.Component {
         const testTasks = this.state.tests.map((test, index=1) => {
             return (
                 <tr>
-                    <td>{index++}</td>
+                    <td>{++index}</td>
                     <td><a onClick={() => this.onClickRef(test.id)}>
-                        {test.testName}
+                        {test.name}
                     </a></td>
                     <td>{test.tasksNumber}</td>
-                    <td>{test.testBase}</td>
+                    <td>{test.testBaseName}</td>
                     <td>{test.totalMark}</td>
                     <td>
-                        <Button variant="secondary" className="ml-3">
+                        <Button variant="secondary" className="ml-3"
+                        onClick={(event => {this.onDeleteTest(event, test.id)})}>
                             <IoTrashSharp/>
                         </Button>
                     </td>

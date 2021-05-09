@@ -28,7 +28,7 @@ export default class TestBasesList extends React.Component {
 
     state = {
         testBases: [
-            /*{id: '1', title: 'Geography Test', description: 'Some description', createdDate: '2020-12-28'},
+           /* {id: '1', title: 'Geography Test', description: 'Some description', createdDate: '2020-12-28'},
             {id: '2', title: 'Geography Test2', description: 'Some description2', createdDate: '2021-12-28'},
             {id: '3', title: 'Geography Test3', description: 'Some description3', createdDate: '2021-12-28'},
             {id: '4', title: 'Geography Test4', description: 'Some description4', createdDate: '2021-12-28'}*/
@@ -37,14 +37,18 @@ export default class TestBasesList extends React.Component {
     }
 
     onDeleteTestBase = (testBaseIdToDelete) => {
-        this.setState(({testBases}) => {
-            const index = testBases.findIndex((el) => el.id === testBaseIdToDelete);
-            const testBasesBefore = testBases.slice(0, index);
-            const testBasesAfter = testBases.slice(index + 1, testBases.length);
-            return {
-                testBases: [...testBasesBefore, ...testBasesAfter]
-            }
-        });
+        fetch(`http://localhost:8080/1/testbases/${testBaseIdToDelete}`, { method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}})
+            .then(() => /*alert('HERREE2222')*/
+                this.setState(({testBases}) => {
+                    const index = testBases.findIndex((el) => el.id === testBaseIdToDelete);
+                    const testBasesBefore = testBases.slice(0, index);
+                    const testBasesAfter = testBases.slice(index + 1, testBases.length);
+                    return {
+                        testBases: [...testBasesBefore, ...testBasesAfter]
+                    }
+                })
+            );
     }
 
     onAddTestBase = (testBase) => {

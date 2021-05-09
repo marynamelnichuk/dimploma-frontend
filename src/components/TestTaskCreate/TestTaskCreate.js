@@ -8,7 +8,7 @@ class TestTaskCreate extends React.Component {
         question: null,
         type: SHORT_ANSWER,
         variants: [],
-        correctAnswer: null,
+        correctQuestion: null,
         displayOptions: false,
         optionsArr: [],
     }
@@ -31,11 +31,8 @@ class TestTaskCreate extends React.Component {
         this.setState(() => {
             let optionsArr = [];
             if (displayOptions) {
-                optionsArr = [<span key="0">
-                <Form.Group>
-                    <Form.Control type="text" placeholder="Введіть варіант" onFocus={this.onVariantAdded}/>
-                    </Form.Group>
-                </span>]
+                optionsArr = [
+                    {id: 0, option: ''}]
             }
             return {
                 type: picklistValue,
@@ -46,16 +43,19 @@ class TestTaskCreate extends React.Component {
     }
 
     onSaveTask = () => {
-       // alert("ON SAVE TASK");
+        // alert("ON SAVE TASK");
+        /*
+        * "question": "Hello?555",
+        "type": "SHORT_ANSWER",
+        "mark": 5,
+        "options": null,
+        "correctQuestion": "CORR"*/
         this.props.onAddedTestTask({
-            question: this.state.question,
-            type: this.state.type,
-            variants: [
-                {id: 1, response: '4'},
-                {id: 2, response: '2'},
-                {id: 3, response: '3'}
-            ],
-            correctAnswer: this.state.correctAnswer
+                question: this.state.question,
+                type: this.state.type,
+                mark: this.state.mark,
+                options: this.state.optionsArr,
+                correctQuestion: this.state.correctQuestion
             }
         );
         this.setState(() => {
@@ -63,7 +63,7 @@ class TestTaskCreate extends React.Component {
                 question: null,
                 type: SHORT_ANSWER,
                 variants: [],
-                correctAnswer: null,
+                correctQuestion: null,
                 displayOptions: false,
                 optionsArr: []
             }
@@ -78,27 +78,51 @@ class TestTaskCreate extends React.Component {
         })
     }
 
+    onMarkChange = (event) => {
+        this.setState(() => {
+            return {
+                mark: event.target.value
+            }
+        })
+    }
+
     onCorrectAnswerChange = (event) => {
         this.setState(() => {
             return {
-                correctAnswer: event.target.value
+                correctQuestion: event.target.value
             }
         })
     }
 
     onVariantAdded = (event) => {
-        console.log("onVariantAdded");
-        console.log('event. name : ', event.target.value);
-        console.log('event. key : ' + event.target.key);
-            this.setState(({optionsArr}) => {
-                return {
-                    optionsArr: [...optionsArr, <span key={optionsArr.length + 1}>
-                <Form.Group>
-                    <Form.Control type="text" placeholder="Введіть варіант" onFocus={this.onVariantAdded}/>
-                    </Form.Group>
-                </span>]
-                }
-            })
+        this.setState(({optionsArr}) => {
+            return {
+                optionsArr: [...optionsArr,
+                    {id: optionsArr.length+1, option: ''}]
+            }
+        })
+    }
+
+    handleChangeVariant = (event, id) => {
+        this.setState(({optionsArr}) => {
+            const index = optionsArr.findIndex((el) => el.id === id);
+            const optionsArrBefore = optionsArr.slice(0, index);
+            const optionsArrAfter = optionsArr.slice(index + 1, optionsArr.length);
+            return {
+                optionsArr : [...optionsArrBefore, {id: id, option: event.target.value}, ...optionsArrAfter]
+            }
+        })
+    }
+
+    onRemoveVariant = (event, id) => {
+        this.setState(({optionsArr}) => {
+            const index = optionsArr.findIndex((el) => el.id === id);
+            const optionsArrBefore = optionsArr.slice(0, index);
+            const optionsArrAfter = optionsArr.slice(index + 1, optionsArr.length);
+            return {
+                optionsArr : [...optionsArrBefore, ...optionsArrAfter]
+            }
+        })
     }
 
     render() {
@@ -107,7 +131,9 @@ class TestTaskCreate extends React.Component {
                 <Card text='dark' className="margin-2">
                     <Card.Header>
                         <Form.Group>
-                            <Form.Control type="text" placeholder="Введіть запитання" onChange={this.onQuestionChange}/>
+                            <Form.Control required type="text"
+                                          as="textarea" rows={1}
+                                          placeholder="Введіть запитання" onChange={this.onQuestionChange}/>
                         </Form.Group>
                     </Card.Header>
                     <Card.Body>
@@ -120,13 +146,37 @@ class TestTaskCreate extends React.Component {
                                     <option>З вибором декількох правильних варіантів</option>
                                 </Form.Control>
                             </Form.Group>
-                            {this.state.displayOptions ? <span>{this.state.optionsArr}</span> : <span></span>}
+                            {this.state.displayOptions ? <div className="mr-3 ml-3">
+                                <div>{this.state.optionsArr.map(
+                                    (elem) => {
+                                        return (
+                                        <span key={elem.id}>
+                                            <Row>
+                                            <Col xs="10"><Form.Group>
+                                                <Form.Control required type="text"
+                                                              as="textarea" rows={1} placeholder="Введіть варіант"
+                                                onChange={(event) => this.handleChangeVariant(event, elem.id)}/>
+                                                </Form.Group></Col>
+                                            <Col xs="2"><Button variant="light" onClick={(event) => this.onRemoveVariant(event, elem.id)}>Видалити</Button>
+                                            </Col>
+                                            </Row>
+                                        </span>
+                                    )}
+                                )}</div>
+                                <div><Button variant="light" onClick={this.onVariantAdded}>Додати варіант</Button></div>
+                            </div> : <span></span>}
                         </Form>
                     </Card.Body>
                     <Card.Footer className="light-green-background">
                         <Form.Group>
-                            <Form.Control type="text" placeholder="Ведіть правильну відповідь"
+                            <Form.Control required type="text"
+                                          as="textarea" rows={1} placeholder="Ведіть правильну відповідь"
                                           onChange={this.onCorrectAnswerChange}/>
+                            <Form.Control required type="number"
+                                          className="mt-3"
+                                          style={{width: "25%"}}
+                                          placeholder="Ведіть оцінку"
+                                          onChange={this.onMarkChange}/>
                         </Form.Group>
                     </Card.Footer>
                 </Card>

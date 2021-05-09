@@ -26,12 +26,23 @@ export default class TestBaseViewTasks extends React.Component {
                     }
                 });
             });
+
+        fetch(`http://localhost:8080/${this.props.match.params.testCardId}/testBaseTasks`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    this.setState(({testBaseTasks}) => {
+                        return {
+                            testBaseTasks: data
+                        }
+                    });
+                });
     }
 
     state = {
         testBaseInfo: undefined,
         testBaseTasks: [
-                {
+                /*{
                     id: 1, question: 'Що описує набір комп\'ютерних програм та структур даних, що використовують модель віртуальної машини для виконання інших комп\'ютерних програм у Java?',
                     type: 'SINGLE_CHOICE',
                     variants: [{id: 11, response: 'JDK'}, {id: 12, response: 'JVM'}, {id: 13, response: 'JRE'}],
@@ -45,7 +56,7 @@ export default class TestBaseViewTasks extends React.Component {
                     ], correctAnswer: 'Абстракція, Поліморфізм'
                 },
                 {id: 3, question: 'Концепція в програмуванні та теорії типів, в основі якої лежить використання єдиного інтерфейсу для різнотипних сутностей, це - ', type: 'SHORT_ANSWER',
-                    correctAnswer: 'Поліморфізм'}
+                    correctAnswer: 'Поліморфізм'}*/
         ],
         addNewTestTask: false
     }
@@ -60,13 +71,38 @@ export default class TestBaseViewTasks extends React.Component {
     }
 
     onAddedTestTask = (newTestTask) => {
-        this.setState(({testBaseTasks}) => {
-            return {
-                testBaseTasks: [{id: testBaseTasks.length+1,
-                    ...newTestTask}, ...testBaseTasks],
-                addNewTestTask: false
-            }
-        });
+
+        //TODO ДОДАТИ
+        const {options, ...infoTestTask} = newTestTask;
+        let optionsToSend = [];
+        options.forEach(elem =>
+        {
+            if(newTestTask.correctQuestion !== elem.option) {
+                optionsToSend.push(elem.option)
+            }});
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                ...infoTestTask,
+                options: optionsToSend,
+            })
+        };
+        fetch(`http://localhost:8080/${this.props.match.params.testCardId}/testBaseTasks`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(({testBaseTasks}) => {
+                    return {
+                        testBaseTasks: [{id: data.id,
+                            ...newTestTask}, ...testBaseTasks],
+                        addNewTestTask: false
+                    }
+                });
+                /*this.setState(() => {
+                    return {}
+                });
+                this.props.history.push(`/signIn`);*/
+            });
     }
 
     render() {

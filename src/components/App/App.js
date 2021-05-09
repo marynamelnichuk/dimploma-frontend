@@ -14,10 +14,7 @@ import MyResultsList from "../MyResultsList/MyResultsList";
 const App = () => {
     return (
         <Switch>
-            <Route path="/signin">
-                <SignInPage/>
-            </Route>
-            <Route path="/signup">
+            <Route path="/signUp">
                 <SignUpPage/>
             </Route>
             <Route path={`/main/tasks/:catId`}
@@ -27,7 +24,7 @@ const App = () => {
             <Route path="/main/testbases">
                 <MainContainer componentToDisplay={<TestBasesList/>}/>
             </Route>
-            <Route path="/main/testtasks">
+            <Route path="/main/tests">
                 <MainContainer componentToDisplay={<TestTaskList/>}/>
             </Route>
             <Route path="/main/respondents">
@@ -39,8 +36,11 @@ const App = () => {
             <Route path="/main/myresults">
                 <MainContainer componentToDisplay={<MyResultsList/>}/>
             </Route>
+            <Route path={"/signIn"}>
+                <SignInPage/>
+            </Route>
         </Switch>
     );
 }
-/*<Route path="/main" component={MainPage} />*/
+
 export default App;
