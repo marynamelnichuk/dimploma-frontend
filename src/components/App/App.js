@@ -10,6 +10,7 @@ import TestTaskList from "../TestsList/TestsList";
 import TestBaseViewTasks from "../TestBaseViewTasks/TestBaseViewTasks";
 import TestResultList from "../TestResultList/TestResultList";
 import MyResultsList from "../MyResultsList/MyResultsList";
+import TestViewTasks from "../TestViewTasks/TestViewTasks";
 
 const App = () => {
     return (
@@ -24,6 +25,9 @@ const App = () => {
             <Route path="/main/testbases">
                 <MainContainer componentToDisplay={<TestBasesList/>}/>
             </Route>
+            <Route path="/main/tests/:testId"
+                   component={(props) => <MainContainer componentToDisplay={<TestViewTasks {...props}/>}/>}>
+            </Route>
             <Route path="/main/tests">
                 <MainContainer componentToDisplay={<TestTaskList/>}/>
             </Route>
@@ -36,7 +40,7 @@ const App = () => {
             <Route path="/main/myresults">
                 <MainContainer componentToDisplay={<MyResultsList/>}/>
             </Route>
-            <Route path={"/signIn"}>
+            <Route path={["/signIn", "/"]}>
                 <SignInPage/>
             </Route>
         </Switch>

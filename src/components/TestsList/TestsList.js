@@ -38,7 +38,7 @@ class TestsList extends React.Component {
     onClickRef = (testTaskId) => {
         const testTask = this.state.tests.find(testTask => testTask.id === testTaskId);
         console.log('clicked testTask ', testTask);
-        this.props.history.push(`/main/tasks/${testTaskId}`);
+        this.props.history.push(`/main/tests/${testTaskId}`);
     }
 
     onAddTest = () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import './TestWithChoices.css';
 import {Card} from 'react-bootstrap';
 import {MULTIPLE_CHOICE, SINGLE_CHOICE} from "../Constants/Constants";
+import {Row, Col} from "react-bootstrap";
 
 class TestWithChoices extends React.Component {
 
@@ -43,32 +44,44 @@ class TestWithChoices extends React.Component {
         const testType = test.type === MULTIPLE_CHOICE ? "checkbox" : "radio";
 
         return (
-            <Card>
-                <div>
-                    <Card.Header className={this.props.viewMode ? "" : "checkbox-test-header"}> {test.question} </Card.Header>
-                    <Card.Body>
-                        <div key={test.id}>
+            <div>
+                <Row>
+                    <Col>
+                        <div className="float-right pb-3">Оцінка за правильне проходження: {test.mark} </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Card>
                             <div>
-                                {test.options.map(option =>
-                                    <div key={option.id} className="checkbox-test-variant">
-                                        <input type={testType} id={option.id} name={test.id}
-                                               defaultChecked={false}
-                                               disabled={this.props.viewMode}
-                                               onChange={() => this.onOptionSelect(option.id)}/>
-                                        <label htmlFor={option.id}
-                                               className="checkbox-test-label">{option.option}</label>
+                                <Card.Header
+                                    className={this.props.viewMode ? "" : "checkbox-test-header"}> {test.question} </Card.Header>
+                                <Card.Body>
+                                    <div key={test.id}>
+                                        <div>
+                                            {test.options.map(option =>
+                                                <div key={option.id} className="checkbox-test-variant">
+                                                    <input type={testType} id={option.id} name={test.id}
+                                                           defaultChecked={false}
+                                                           disabled={this.props.viewMode}
+                                                           onChange={() => this.onOptionSelect(option.id)}/>
+                                                    <label htmlFor={option.id}
+                                                           className="checkbox-test-label">{option.option}</label>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    </Card.Body>
-                    {test.correctQuestion ? <Card.Footer className="light-green-background">
+                                </Card.Body>
+                                {test.correctQuestion ? <Card.Footer className="light-green-background">
                     <span>
                         <span className="correct-answer">Правильна відповідь: </span>
                         {test.correctQuestion}</span>
-                    </Card.Footer> : <span/>}
-                </div>
-            </Card>
+                                </Card.Footer> : <span/>}
+                            </div>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
         );
     }
 }
