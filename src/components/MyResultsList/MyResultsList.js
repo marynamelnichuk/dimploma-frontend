@@ -7,18 +7,31 @@ import MyTestResults from "../MyTestResults/MyTestResults";
 
 class MyResultsList extends React.Component {
 
+    componentDidMount() {
+        fetch('http://localhost:8080/1/testsAssignments/toComplete')
+            .then(response => response.json())
+            .then(data => {
+                this.setState(() => {
+                    return {
+                        testsToComplete: data
+                    }
+                });
+            });
+    }
+
+
     state = {
-        tests: [
-            {id: 1, testName: 'Тест перевірки знань ООП', userEmail: 'mariia.petliakivska.kn.2017@lpnu.ua',
+        testsToComplete: [
+           /* {id: 1, testName: 'Тест перевірки знань ООП', userEmail: 'mariia.petliakivska.kn.2017@lpnu.ua',
                 dueDate: '2021-06-04', totalMark: 120},
             {id: 2, testName: 'Тест для підготовки до ЗНО з англійської', userEmail: 'mariia.petliakivska.kn.2017@lpnu.ua',
-                dueDate: '2021-06-10', totalMark: 200},
+                dueDate: '2021-06-10', totalMark: 200},*/
         ],
         addTest: false
     }
 
     onClickRef = (testTaskId) => {
-        const testTask = this.state.tests.find(testTask => testTask.id === testTaskId);
+        const testTask = this.state.testsToComplete.find(testTask => testTask.id === testTaskId);
         console.log('clicked testTask ', testTask);
         this.props.history.push(`/main/tasks/${testTaskId}`);
     }
@@ -32,9 +45,9 @@ class MyResultsList extends React.Component {
     }
 
     onAddedTest = (test) => {
-        this.setState(({tests, addTest}) => {
+        this.setState(({testsToComplete, addTest}) => {
             return {
-                tests: [...tests, test],
+                testsToComplete: [...testsToComplete, test],
                 addTest: !addTest
             }
         });
@@ -43,7 +56,7 @@ class MyResultsList extends React.Component {
 
     render() {
         /*href={`http://localhost:3000/main/tasklist/${testTask.id}`} o*/
-        const testTasks = this.state.tests.map((test, index=1) => {
+        const testTasks = this.state.testsToComplete.map((test, index=1) => {
             return (
                 <tr>
                     <td>{++index}</td>
@@ -51,7 +64,7 @@ class MyResultsList extends React.Component {
                         {test.testName}
                     </a></td>
                     <td>{test.userEmail}</td>
-                    <td>{test.totalMark}</td>
+                    <td>{test.maxMark}</td>
                     <td>{test.dueDate}</td>
                     <td>
                         <Button variant="primary" size="md" active className="ml-3">

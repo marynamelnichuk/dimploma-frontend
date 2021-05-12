@@ -36,12 +36,11 @@ class RespondentCreateForm extends React.Component {
 
 
     onSubmit = (event) => {
-       /* this.props.onAddTest({
+        this.props.onAddRespondent({
+            userEmail: this.state.userEmail,
             testName: this.state.testName,
-            tasksNumber: this.state.tasksNumber,
-            testBase: this.state.testBase,
-            totalMark: this.state.totalMark
-        });*/
+            dueDate: this.state.dueDate
+        });
     }
 
     render() {
@@ -58,11 +57,11 @@ class RespondentCreateForm extends React.Component {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Електронна пошта користувача</Form.Label>
-                                    <Form.Control type="email" placeholder="Електронна пошта користувача" onChange={this.onTasksNumberChange}/>
+                                    <Form.Control type="email" placeholder="Електронна пошта користувача" onChange={this.onUserEmailChange}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Кінцевий термін</Form.Label>
-                                    <Form.Control type="date" placeholder=">Кінцевий термін" onChange={this.onTestBaseChange}/>
+                                    <Form.Control type="date" placeholder=">Кінцевий термін" onChange={this.onDueDateChange}/>
                                 </Form.Group>
                                 <Button variant="primary" size="lg" active className="next-button" onClick={this.onSubmit}>
                                     Зберегти
