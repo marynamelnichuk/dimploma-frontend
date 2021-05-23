@@ -51,7 +51,10 @@ class MyResultsList extends React.Component {
                 addTest: !addTest
             }
         });
-        console.log('ON ADDED');
+    }
+
+    onStartTest = (testId) => {
+        this.props.history.push(`/main/myresults/completeTest/${testId}`);
     }
 
     render() {
@@ -67,7 +70,8 @@ class MyResultsList extends React.Component {
                     <td>{test.maxMark}</td>
                     <td>{test.dueDate}</td>
                     <td>
-                        <Button variant="primary" size="md" active className="ml-3">
+                        <Button variant="primary" size="md" active className="ml-3" onClick={
+                            () => this.onStartTest(test.id)}>
                             <Row className="margin-auto">
                                 Скласти
                             </Row>
@@ -90,7 +94,7 @@ class MyResultsList extends React.Component {
                         <th>Назва тесту</th>
                         <th>Призначено користувачем</th>
                         <th>Максимальна оцінка</th>
-                        <th>Кінцевий терім</th>
+                        <th>Кінцевий термін</th>
                         <th>Скласти тест</th>
                     </tr>
                     </thead>

@@ -7,23 +7,55 @@ import {FINISH_TEST_BUTTON_LABEL, SHORT_ANSWER} from "../Constants/Constants";
 
 class TestTaskToComplete extends React.Component {
 
+    componentDidMount() {
+        /*fetch(`http://localhost:8080/1/tests/${this.props.match.params.testId}`)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(() => {
+                    return {
+                        testInfo: data
+                    }
+                });
+            });*/
+        fetch(`http://localhost:8080/testsToComplete/${this.props.match.params.assignmentId}`)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(() => {
+                    const testTasks = data.map(elem => {
+                        return {
+                            id: elem.id,
+                            question: elem.testBaseTaskDTO.question,
+                            type: elem.testBaseTaskDTO.type,
+                            mark: elem.mark,
+                            options: elem.testBaseTaskDTO.options
+                        }
+                    });
+                    return {
+                        testTasks: testTasks
+                    }
+                });
+            });
+    }
+
+
     state = {
-        testTitle: 'Тест перевірки знань ООП',
-        tests: [
-            {
+        testName: 'Тест перевірки знань ООП',
+        testDescription: 'Опис тест перевірки знань ООП....',
+        testTasks: [
+            /*{
                 id: 1, question: 'Що описує набір комп\'ютерних програм та структур даних, що використовують модель віртуальної машини для виконання інших комп\'ютерних програм у Java?',
-                type: 'SINGLE_CHOICE',
-                variants: [{id: 11, response: 'JDK'}, {id: 12, response: 'JVM'}, {id: 13, response: 'JRE'}]
+                type: 'SINGLE_CHOICE', mark: 20,
+                options: [{id: 11, option: 'JDK'}, {id: 12, option: 'JVM'}, {id: 13, option: 'JRE'}]
             },
             {
-                id: 2, question: 'До принципів ООП відносять:', type: 'MULTIPLE_CHOICE',
-                variants: [
-                    {id: 1, response: 'Абстракція'}, {id: 2, response: 'Орієнтованість'}, {id: 3, response: 'Оверайдінг'},
-                    {id: 4, response: 'Поліморфізм'}
+                id: 2, question: 'До принципів ООП відносять:', type: 'MULTIPLE_CHOICE', mark: 25,
+                options: [
+                    {id: 1, option: 'Абстракція'}, {id: 2, option: 'Орієнтованість'}, {id: 3, option: 'Оверайдінг'},
+                    {id: 4, option: 'Поліморфізм'}
                 ]
             },
-            {id: 3, question: 'Концепція в програмуванні та теорії типів, в основі якої лежить використання єдиного інтерфейсу для різнотипних сутностей, це - ', type: 'SHORT_ANSWER',}
-            /*{
+            {id: 3, mark: 15, question: 'Концепція в програмуванні та теорії типів, в основі якої лежить використання єдиного інтерфейсу для різнотипних сутностей, це - ', type: 'SHORT_ANSWER',}
+            *//*{
                 id: 1, question: 'What time ?', type: 'SINGLE_CHOICE',
                 variants: [{id: 11, response: '1'}, {id: 12, response: '2'}, {id: 13, response: '3'}]
             },
@@ -39,19 +71,32 @@ class TestTaskToComplete extends React.Component {
     }
 
     onFinishTestTask = () => {
-        console.log('onOptionSelected testAnswers : ', this.state.testAnswers);
+        //console.log('onOptionSelected testAnswers : ', this.state.testAnswers);
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.state.testAnswers)
+        };
+        fetch(`http://localhost:8080/testsToComplete/${this.props.match.params.assignmentId}`,
+            requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(() => {
+                    return {}
+                });
+            });
     }
 
     onTestTaskFilled = (testId, answer) => {
         this.setState(({testAnswers}) => {
-            const indexTestAnswer = testAnswers.findIndex((el) => el.testId === testId);
+            const indexTestAnswer = testAnswers.findIndex((el) => el.testTaskId === testId);
             let elem = undefined;
             if (indexTestAnswer !== undefined) {
                 elem = testAnswers[indexTestAnswer];
             }
             const newTestAnswer = {
-                testId: testId,
-                answer: answer
+                testTaskId: testId,
+                answers: answer
             }
             if (elem === undefined) {
                 return {
@@ -70,15 +115,15 @@ class TestTaskToComplete extends React.Component {
 
     render() {
 
-
-        const tests = this.state.tests;
-        const testQuestions = tests.map(test => {
+        const testTasks = this.state.testTasks;
+        const testQuestions = testTasks.map(test => {
             return <TestQuestion key={test.id} viewMode={false} {...test} onTestTaskFilled={this.onTestTaskFilled}/>
         });
 
         return (
             <div className="container-inner">
-                <div className="nav-item-label">{this.state.testTitle}</div>
+                <h1>{this.state.testName}</h1>
+                <div className="nav-item-label">{this.state.testDescription}</div>
                 {testQuestions}
                 <Button as="input" type="button" className="float-right" value={FINISH_TEST_BUTTON_LABEL} onClick={this.onFinishTestTask}/>
             </div>

@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/signUp">
                 <SignUpPage/>
             </Route>
-            <Route path={`/main/tasks/:catId`}
+            <Route path={`/main/myresults/completeTest/:assignmentId`}
                    component={(props) => <MainContainer componentToDisplay={<TestTaskToComplete {...props}/>}/>}/>
             <Route path={`/main/testbases/:testCardId`}
                    component={(props) => <MainContainer componentToDisplay={<TestBaseViewTasks {...props}/>}/>}/>

@@ -169,11 +169,14 @@ class TestTaskCreate extends React.Component {
                     </Card.Body>
                     <Card.Footer className="light-green-background">
                         <Form.Group>
+                            <Form.Label>Правильна відповідь:</Form.Label>
                             <Form.Control required type="text"
                                           as="textarea" rows={1} placeholder="Ведіть правильну відповідь"
                                           onChange={this.onCorrectAnswerChange}/>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Оцінка:</Form.Label>
                             <Form.Control required type="number"
-                                          className="mt-3"
                                           style={{width: "25%"}}
                                           placeholder="Ведіть оцінку"
                                           onChange={this.onMarkChange}/>

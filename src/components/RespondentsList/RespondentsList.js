@@ -59,11 +59,11 @@ class RespondentsList extends React.Component {
         const respondents = this.state.respondents.map((respondent, index=1) => {
             return (
                 <tr>
-                    <td>{index++}</td>
+                    <td>{++index}</td>
                     <td>{respondent.userEmail}</td>
                     <td>{respondent.testName}</td>
-                    <td>{respondent.dueDate}</td>
                     <td>{respondent.status}</td>
+                    <td>{respondent.dueDate}</td>
                 </tr>
             )
         })
