@@ -1,6 +1,6 @@
 import SignInPage from "../SignInPage/SignInPage";
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Redirect, Switch, withRouter} from 'react-router-dom';
 import SignUpPage from "../SignUpPage/SignUpPage";
 import MainContainer from "../MainContainer/MainContainer";
 import TestTaskToComplete from "../TestTaskToComplete/TestTaskToComplete";
@@ -12,39 +12,52 @@ import TestResultList from "../TestResultList/TestResultList";
 import MyResultsList from "../MyResultsList/MyResultsList";
 import TestViewTasks from "../TestViewTasks/TestViewTasks";
 
-const App = () => {
-    return (
-        <Switch>
-            <Route path="/signUp">
-                <SignUpPage/>
-            </Route>
-            <Route path={`/main/myresults/completeTest/:assignmentId`}
-                   component={(props) => <MainContainer componentToDisplay={<TestTaskToComplete {...props}/>}/>}/>
-            <Route path={`/main/testbases/:testCardId`}
-                   component={(props) => <MainContainer componentToDisplay={<TestBaseViewTasks {...props}/>}/>}/>
-            <Route path="/main/testbases">
-                <MainContainer componentToDisplay={<TestBasesList/>}/>
-            </Route>
-            <Route path="/main/tests/:testId"
-                   component={(props) => <MainContainer componentToDisplay={<TestViewTasks {...props}/>}/>}>
-            </Route>
-            <Route path="/main/tests">
-                <MainContainer componentToDisplay={<TestTaskList/>}/>
-            </Route>
-            <Route path="/main/respondents">
-                <MainContainer componentToDisplay={<RespondentsList/>}/>
-            </Route>
-            <Route path="/main/testresults">
-                <MainContainer componentToDisplay={<TestResultList/>}/>
-            </Route>
-            <Route path="/main/myresults">
-                <MainContainer componentToDisplay={<MyResultsList/>}/>
-            </Route>
-            <Route path={["/signIn", "/"]}>
-                <SignInPage/>
-            </Route>
-        </Switch>
-    );
+
+class App extends React.Component {
+
+    state = {
+        userId: 1
+    };
+
+    onUserSignIn = (userId) => {
+        this.setState(() => {return {
+            userId: userId
+        }})
+        this.props.history.push('/main/testBases');
+    }
+
+    render() {
+        return (
+            <Switch>
+                <Route exact path="/">
+                    <Redirect to="/signIn"/>
+                </Route>
+                <Route path="/signUp">
+                    <SignUpPage/>
+                </Route>
+                <Route path="/signIn">
+                    <SignInPage onUserSignIn={this.onUserSignIn}/>
+                </Route>
+                <Route path={`/main/myResults/completeTest/:assignmentId`}
+                       component={(props) => <MainContainer componentToDisplay={<TestTaskToComplete userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/testBases/:testCardId`}
+                       component={(props) => <MainContainer componentToDisplay={<TestBaseViewTasks userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/testBases`}
+                       component={(props) => <MainContainer componentToDisplay={<TestBasesList userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/tests/:testId"`}
+                       component={(props) => <MainContainer componentToDisplay={<TestViewTasks userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/tests`}
+                       component={(props) => <MainContainer componentToDisplay={<TestTaskList userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/respondents`}
+                       component={(props) => <MainContainer componentToDisplay={<RespondentsList userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/testResults`}
+                       component={(props) => <MainContainer componentToDisplay={<TestResultList userId={this.state.userId} {...props}/>}/>}/>
+                <Route path={`/main/myResults`}
+                       component={(props) => <MainContainer componentToDisplay={<MyResultsList userId={this.state.userId} {...props}/>}/>}/>
+            </Switch>
+        );
+    }
+
 }
 
-export default App;
+export default withRouter(App);

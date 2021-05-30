@@ -9,7 +9,7 @@ class SignUpForm extends React.Component {
     state = {};
 
     onSignUp = () => {
-        if(this.state.email && this.state.password && this.state.firstName && this.state.lastName) {
+        if (this.state.email && this.state.password && this.state.firstName && this.state.lastName) {
             const requestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -23,11 +23,11 @@ class SignUpForm extends React.Component {
             fetch('http://localhost:8080/signUp', requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                        this.setState(() => {
-                            return {}
-                        });
-                        this.props.history.push(`/signIn`);
+                    this.setState(() => {
+                        return {}
                     });
+                    this.props.history.push(`/signIn`);
+                });
         }
     }
 
@@ -78,11 +78,13 @@ class SignUpForm extends React.Component {
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Електронна пошта</Form.Label>
-                        <Form.Control required type="email" placeholder="Введіть електронну пошту" onChange={this.onEmailChange}/>
+                        <Form.Control required type="email" placeholder="Введіть електронну пошту"
+                                      onChange={this.onEmailChange}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Пароль</Form.Label>
-                        <Form.Control required type="password" placeholder="Введіть пароль" onChange={this.onPasswordChange}/>
+                        <Form.Control required type="password" placeholder="Введіть пароль"
+                                      onChange={this.onPasswordChange}/>
                     </Form.Group>
                     <Button variant="primary" type="submit" className="login-button" onClick={this.onSignUp}>
                         Зареєструватися

@@ -6,7 +6,7 @@ import './TestViewTasks.css';
 export default class TestViewTasks extends React.Component {
 
     componentDidMount() {
-        fetch(`http://localhost:8080/1/tests/${this.props.match.params.testId}`)
+        fetch(`http://localhost:8080/1${this.props.userId}/tests/${this.props.match.params.testId}`)
             .then(response => response.json())
             .then(data => {
                 this.setState(() => {
@@ -33,38 +33,11 @@ export default class TestViewTasks extends React.Component {
                     }
                 });
             });
-
-        /*fetch(`http://localhost:8080/${this.props.match.params.testCardId}/testBaseTasks`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    this.setState(({testBaseTasks}) => {
-                        return {
-                            testBaseTasks: data
-                        }
-                    });
-                });*/
     }
 
     state = {
         testInfo: undefined,
-        testTasks: [
-                /*{
-                    id: 1, question: 'Що описує набір комп\'ютерних програм та структур даних, що використовують модель віртуальної машини для виконання інших комп\'ютерних програм у Java?',
-                    type: 'SINGLE_CHOICE',
-                    variants: [{id: 11, response: 'JDK'}, {id: 12, response: 'JVM'}, {id: 13, response: 'JRE'}],
-                    correctAnswer: 'JVM'
-                },
-                {
-                    id: 2, question: 'До принципів ООП відносять:', type: 'MULTIPLE_CHOICE',
-                    variants: [
-                        {id: 1, response: 'Абстракція'}, {id: 2, response: 'Орієнтованість'}, {id: 3, response: 'Оверайдінг'},
-                        {id: 4, response: 'Поліморфізм'}
-                    ], correctAnswer: 'Абстракція, Поліморфізм'
-                },
-                {id: 3, question: 'Концепція в програмуванні та теорії типів, в основі якої лежить використання єдиного інтерфейсу для різнотипних сутностей, це - ', type: 'SHORT_ANSWER',
-                    correctAnswer: 'Поліморфізм'}*/
-        ],
+        testTasks: [],
         addNewTestTask: false
     }
 
@@ -99,8 +72,6 @@ export default class TestViewTasks extends React.Component {
         )
     }
 }
-
-
 
 
 /*

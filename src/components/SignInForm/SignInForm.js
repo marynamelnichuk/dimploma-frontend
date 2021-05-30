@@ -27,16 +27,11 @@ class SignInForm extends React.Component {
             };
             fetch('http://localhost:8080/signIn', requestOptions)
                 .then(response => response.json())
-                /*.then(data => {
-                    this.props.history.push('/main/testbases');
-                })*/.catch(error =>
-                this.setState(({failedLogin}) => {
-                    return {
-                        failedLogin: true
-                    }
-                }));
+                .then(data => {
+                    this.props.onUserSignIn(data.id);
+                });
         }
-        this.props.history.push('/main/testbases');
+        this.props.history.push('/main/testBases');
     }
 
     onEmailChange = (event) => {
@@ -75,7 +70,8 @@ class SignInForm extends React.Component {
                     </Button>
                 </Form>
                 <div>
-                    {this.state.failedLogin ? <p className="mt-3">Електронна пошта або пароль невірні.</p> : <span></span>}
+                    {this.state.failedLogin ? <p className="mt-3">Електронна пошта або пароль невірні.</p> :
+                        <span></span>}
                 </div>
                 <div>
                     <hr className="divider"/>

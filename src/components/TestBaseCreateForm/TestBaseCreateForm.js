@@ -11,7 +11,7 @@ class TestBaseCreateForm extends React.Component {
         category: ''
     };
 
-    formatDate = ()  => {
+    formatDate = () => {
         let d = new Date(),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -23,7 +23,6 @@ class TestBaseCreateForm extends React.Component {
             day = '0' + day;
 
         return "2021-09-10";
-        //[year, month, day].join('-');
     }
 
     onSubmit = (event) => {
@@ -68,7 +67,7 @@ class TestBaseCreateForm extends React.Component {
                             <Form>
                                 <Form.Group>
                                     <Form.Label>Назва</Form.Label>
-                                    <Form.Control type="text" placeholder="Назва" onChange={this.onTitleCahnge} />
+                                    <Form.Control type="text" placeholder="Назва" onChange={this.onTitleCahnge}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Категорія</Form.Label>
@@ -80,9 +79,11 @@ class TestBaseCreateForm extends React.Component {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Створено</Form.Label>
-                                    <Form.Control type="text" readOnly disabled defaultValue={(new Date()).toISOString().split('T')[0]}/>
+                                    <Form.Control type="text" readOnly disabled
+                                                  defaultValue={(new Date()).toISOString().split('T')[0]}/>
                                 </Form.Group>
-                                <Button variant="primary" size="lg" active className="next-button" onClick={this.onSubmit}>
+                                <Button variant="primary" size="lg" active className="next-button"
+                                        onClick={this.onSubmit}>
                                     Зберегти
                                 </Button>
                             </Form>

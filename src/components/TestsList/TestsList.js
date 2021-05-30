@@ -9,24 +9,15 @@ import {IoTrashSharp} from "react-icons/io5";
 class TestsList extends React.Component {
 
     state = {
-        tests: [
-            /*{id: '1', testName: 'Тест з георграфії на 8 завдань', tasksNumber: 8,
-                testBase: 'База тестових завдань з географії', totalMark: 10},
-            {id: '2', testName: 'Тест з георграфії на 20 завдань', tasksNumber: 20,
-                testBase: 'База тестових завдань з географії', totalMark: 40},
-            {id: '3', testName: 'Тест перевірки знань Java', tasksNumber: 15,
-                testBase: 'База тестових завдань для перевірки знання Java', totalMark: 100},
-            {id: '4', testName: 'Тест перевірки знань Python', tasksNumber: 20,
-                testBase: 'База тестових завдань для перевірки знання Python', totalMark: 200},*/
-                    ],
+        tests: [],
         addTest: false
     }
 
     componentDidMount() {
-        fetch(`http://localhost:8080/1/tests`)
+        fetch(`http://localhost:8080/${this.props.userId}/tests`)
             .then(response => response.json())
             .then(data => {
-                this.setState(({testBaseInfo}) => {
+                this.setState(() => {
                     return {
                         tests: data
                     }
@@ -36,8 +27,6 @@ class TestsList extends React.Component {
 
 
     onClickRef = (testTaskId) => {
-        const testTask = this.state.tests.find(testTask => testTask.id === testTaskId);
-        console.log('clicked testTask ', testTask);
         this.props.history.push(`/main/tests/${testTaskId}`);
     }
 
@@ -55,23 +44,23 @@ class TestsList extends React.Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(test)
         };
-        fetch('http://localhost:8080/1/tests', requestOptions)
+        fetch(`http://localhost:8080/${this.props.userId}/tests`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 this.setState(({tests, addTest}) => {
                     return {
-                        tests: [...tests, {id:data.id, ...test}],
+                        tests: [...tests, {id: data.id, ...test}],
                         addTest: !addTest
                     }
                 });
             });
-
-        console.log('ON ADDED');
     }
 
     onDeleteTest = (event, id) => {
-        fetch(`http://localhost:8080/1/tests/${id}`, { method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}})
+        fetch(`http://localhost:8080/1/tests/${id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
             .then(() =>
                 this.setState(({tests}) => {
                     const index = tests.findIndex((el) => el.id === id);
@@ -85,8 +74,7 @@ class TestsList extends React.Component {
     }
 
     render() {
-        /*href={`http://localhost:3000/main/tasklist/${testTask.id}`} o*/
-        const testTasks = this.state.tests.map((test, index=1) => {
+        const testTasks = this.state.tests.map((test, index = 1) => {
             return (
                 <tr>
                     <td>{++index}</td>
@@ -98,7 +86,9 @@ class TestsList extends React.Component {
                     <td>{test.totalMark}</td>
                     <td>
                         <Button variant="secondary" className="ml-3"
-                        onClick={(event => {this.onDeleteTest(event, test.id)})}>
+                                onClick={(event => {
+                                    this.onDeleteTest(event, test.id)
+                                })}>
                             <IoTrashSharp/>
                         </Button>
                     </td>
@@ -113,7 +103,7 @@ class TestsList extends React.Component {
                     <span><Row className="mb-3">
                     <Col><h2>Тести</h2></Col>
                     <Col><Button variant="primary" size="md" active className="float-right"
-                    onClick={this.onAddTest} >
+                                 onClick={this.onAddTest}>
                         <Row className="margin-auto">
                             Створити тест
                         </Row>

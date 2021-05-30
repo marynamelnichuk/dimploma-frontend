@@ -53,17 +53,21 @@ class RespondentCreateForm extends React.Component {
                             <Form>
                                 <Form.Group>
                                     <Form.Label>Назва тесту</Form.Label>
-                                    <Form.Control type="text" placeholder="Назва тесту" onChange={this.onTestNameChange} />
+                                    <Form.Control type="text" placeholder="Назва тесту"
+                                                  onChange={this.onTestNameChange}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Електронна пошта користувача</Form.Label>
-                                    <Form.Control type="email" placeholder="Електронна пошта користувача" onChange={this.onUserEmailChange}/>
+                                    <Form.Control type="email" placeholder="Електронна пошта користувача"
+                                                  onChange={this.onUserEmailChange}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Кінцевий термін</Form.Label>
-                                    <Form.Control type="date" placeholder=">Кінцевий термін" onChange={this.onDueDateChange}/>
+                                    <Form.Control type="date" placeholder=">Кінцевий термін"
+                                                  onChange={this.onDueDateChange}/>
                                 </Form.Group>
-                                <Button variant="primary" size="lg" active className="next-button" onClick={this.onSubmit}>
+                                <Button variant="primary" size="lg" active className="next-button"
+                                        onClick={this.onSubmit}>
                                     Зберегти
                                 </Button>
                             </Form>

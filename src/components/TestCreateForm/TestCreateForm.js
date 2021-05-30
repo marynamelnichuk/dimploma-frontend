@@ -52,53 +52,6 @@ class TestCreateForm extends React.Component {
         });
     }
 
-    /*formatDate = ()  => {
-        let d = new Date(),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
-
-        return "2021-09-10";
-        //[year, month, day].join('-');
-    }
-
-    onSubmit = (event) => {
-        this.props.onAddTestBase({
-            title: this.state.title,
-            category: this.state.category,
-            description: this.state.description
-        });
-    }
-
-    onTitleCahnge = (event) => {
-        this.setState(({title}) => {
-            return {
-                title: event.target.value
-            }
-        })
-    }
-
-    onCategoryChange = (event) => {
-        this.setState(({category}) => {
-            return {
-                category: event.target.value
-            }
-        })
-    }
-
-    onDescriptionChange = (event) => {
-        this.setState(({title}) => {
-            return {
-                description: event.target.value
-            }
-        })
-    }
-*/
     render() {
         return (
             <div className="blue-back">
@@ -109,21 +62,26 @@ class TestCreateForm extends React.Component {
                             <Form>
                                 <Form.Group>
                                     <Form.Label>Назва тесту</Form.Label>
-                                    <Form.Control type="text" placeholder="Назва тесту" onChange={this.onTestNameChange} />
+                                    <Form.Control type="text" placeholder="Назва тесту"
+                                                  onChange={this.onTestNameChange}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Кількість завдань</Form.Label>
-                                    <Form.Control type="number" placeholder="Кількість завдань" onChange={this.onTasksNumberChange}/>
+                                    <Form.Control type="number" placeholder="Кількість завдань"
+                                                  onChange={this.onTasksNumberChange}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Тестова база</Form.Label>
-                                    <Form.Control type="text" placeholder="Тестова база" onChange={this.onTestBaseChange}/>
+                                    <Form.Control type="text" placeholder="Тестова база"
+                                                  onChange={this.onTestBaseChange}/>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Максимальна оцінка</Form.Label>
-                                    <Form.Control type="number" placeholder="Максимальна оцінка" onChange={this.onTotalMarkChange}/>
+                                    <Form.Control type="number" placeholder="Максимальна оцінка"
+                                                  onChange={this.onTotalMarkChange}/>
                                 </Form.Group>
-                                <Button variant="primary" size="lg" active className="next-button" onClick={this.onSubmit}>
+                                <Button variant="primary" size="lg" active className="next-button"
+                                        onClick={this.onSubmit}>
                                     Зберегти
                                 </Button>
                             </Form>

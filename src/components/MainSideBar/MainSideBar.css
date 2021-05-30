@@ -50,3 +50,7 @@ li hr {
     word-break: break-all;
     font-weight: 500;
 }
+
+.exit {
+    margin-top: 80%;
+}

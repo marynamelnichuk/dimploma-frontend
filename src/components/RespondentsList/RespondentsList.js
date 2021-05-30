@@ -5,9 +5,8 @@ import RespondentCreateForm from "../RespondentCreateForm/RespondentCreateForm";
 
 class RespondentsList extends React.Component {
 
-
     componentDidMount() {
-        fetch('http://localhost:8080/1/testsAssignments')
+        fetch(`http://localhost:8080/${this.props.userId}/testsAssignments`)
             .then(response => response.json())
             .then(data => {
                 this.setState(() => {
@@ -19,11 +18,7 @@ class RespondentsList extends React.Component {
     }
 
     state = {
-      respondents: [
-         /* {id: 1, userEmail: 'sofiia.predko.kn.2017@lpnu.ua', testName: 'Тест перевірки знань Java', dueDate: '2021-06-04', status: 'Призначено'},
-          {id: 2, userEmail: 'mariia.petliakivska.kn.2017@lpnu.ua', testName: 'Тест перевірки знань Python', dueDate: '2021-10-04', status: 'Виконано'}
-      */
-      ],
+        respondents: [],
         addRespondent: false,
     };
 
@@ -37,13 +32,12 @@ class RespondentsList extends React.Component {
     }
 
     onAddedRespondent = (respondent) => {
-        //alert(respondent.dueDate)
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(respondent)
         };
-        fetch('http://localhost:8080/1/testsAssignments', requestOptions)
+        fetch(`http://localhost:8080/${this.props.userId}/testsAssignments`, requestOptions)
             .then(response => response.json())
             .then(data => this.setState(({respondents, addRespondent}) => {
                 return {
@@ -56,13 +50,14 @@ class RespondentsList extends React.Component {
 
     render() {
 
-        const respondents = this.state.respondents.map((respondent, index=1) => {
+        const respondents = this.state.respondents.map((respondent, index = 1) => {
             return (
                 <tr>
                     <td>{++index}</td>
                     <td>{respondent.userEmail}</td>
                     <td>{respondent.testName}</td>
-                    <td>{respondent.status}</td>
+                    <td>{respondent.status === 'COMPLETED' ? 'Завершено' :
+                        (respondent.status === 'ASSIGNED' ? 'Призначено' : 'Почато')}</td>
                     <td>{respondent.dueDate}</td>
                 </tr>
             )
@@ -73,7 +68,8 @@ class RespondentsList extends React.Component {
                 {this.state.addRespondent ? <RespondentCreateForm onAddRespondent={this.onAddedRespondent}/> :
                     <span><Row className="mb-3">
                     <Col><h2>Призначені тести</h2></Col>
-                    <Col><Button variant="primary" size="md" active className="float-right" onClick={this.onAddRespondent}>
+                    <Col><Button variant="primary" size="md" active className="float-right"
+                                 onClick={this.onAddRespondent}>
                         <Row className="margin-auto">
                             Призначити тест
                         </Row>
@@ -92,7 +88,7 @@ class RespondentsList extends React.Component {
                     <tbody>
                         {respondents}
                     </tbody>
-                </Table></span> }
+                </Table></span>}
             </div>
         )
     }

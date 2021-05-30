@@ -3,20 +3,21 @@ import '../Global styles.css';
 import './TestTaskToComplete.css';
 import TestQuestion from "../TestQuestion/TestQuestion";
 import {Button} from "react-bootstrap";
-import {FINISH_TEST_BUTTON_LABEL, SHORT_ANSWER} from "../Constants/Constants";
+import {FINISH_TEST_BUTTON_LABEL} from "../Constants/Constants";
 
 class TestTaskToComplete extends React.Component {
 
     componentDidMount() {
-        /*fetch(`http://localhost:8080/1/tests/${this.props.match.params.testId}`)
+        fetch(`http://localhost:8080/testsToComplete/${this.props.match.params.assignmentId}/testInfo`)
             .then(response => response.json())
             .then(data => {
                 this.setState(() => {
                     return {
-                        testInfo: data
+                        testName: data.testName,
+                        testDescription: data.testDescription
                     }
                 });
-            });*/
+            });
         fetch(`http://localhost:8080/testsToComplete/${this.props.match.params.assignmentId}`)
             .then(response => response.json())
             .then(data => {
@@ -39,39 +40,11 @@ class TestTaskToComplete extends React.Component {
 
 
     state = {
-        testName: 'Тест перевірки знань ООП',
-        testDescription: 'Опис тест перевірки знань ООП....',
-        testTasks: [
-            /*{
-                id: 1, question: 'Що описує набір комп\'ютерних програм та структур даних, що використовують модель віртуальної машини для виконання інших комп\'ютерних програм у Java?',
-                type: 'SINGLE_CHOICE', mark: 20,
-                options: [{id: 11, option: 'JDK'}, {id: 12, option: 'JVM'}, {id: 13, option: 'JRE'}]
-            },
-            {
-                id: 2, question: 'До принципів ООП відносять:', type: 'MULTIPLE_CHOICE', mark: 25,
-                options: [
-                    {id: 1, option: 'Абстракція'}, {id: 2, option: 'Орієнтованість'}, {id: 3, option: 'Оверайдінг'},
-                    {id: 4, option: 'Поліморфізм'}
-                ]
-            },
-            {id: 3, mark: 15, question: 'Концепція в програмуванні та теорії типів, в основі якої лежить використання єдиного інтерфейсу для різнотипних сутностей, це - ', type: 'SHORT_ANSWER',}
-            *//*{
-                id: 1, question: 'What time ?', type: 'SINGLE_CHOICE',
-                variants: [{id: 11, response: '1'}, {id: 12, response: '2'}, {id: 13, response: '3'}]
-            },
-            {
-                id: 2, question: 'Checnk!', type: 'MULTIPLE_CHOICE',
-                variants: [
-                    {id: 1, response: '4'}, {id: 2, response: '2'}, {id: 3, response: '3'}
-                ],
-            },
-            {id: 3, question: 'What is the capital of Great Britain?', type: 'SHORT_ANSWER'}*/
-        ],
+        testTasks: [],
         testAnswers: []
     }
 
     onFinishTestTask = () => {
-        //console.log('onOptionSelected testAnswers : ', this.state.testAnswers);
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -84,6 +57,7 @@ class TestTaskToComplete extends React.Component {
                 this.setState(() => {
                     return {}
                 });
+                this.props.history.push(`/main/myResults`);
             });
     }
 
@@ -103,8 +77,8 @@ class TestTaskToComplete extends React.Component {
                     testAnswers: [...testAnswers, newTestAnswer]
                 }
             } else {
-                const testAnswersBefore = testAnswers.slice(0, indexTestAnswer );
-                const testAnswersAfter = testAnswers.slice(indexTestAnswer  + 1, testAnswers.length);
+                const testAnswersBefore = testAnswers.slice(0, indexTestAnswer);
+                const testAnswersAfter = testAnswers.slice(indexTestAnswer + 1, testAnswers.length);
                 const newCheckedVariants = [...testAnswersBefore, newTestAnswer, ...testAnswersAfter];
                 return {
                     testAnswers: newCheckedVariants
@@ -125,7 +99,8 @@ class TestTaskToComplete extends React.Component {
                 <h1>{this.state.testName}</h1>
                 <div className="nav-item-label">{this.state.testDescription}</div>
                 {testQuestions}
-                <Button as="input" type="button" className="float-right" value={FINISH_TEST_BUTTON_LABEL} onClick={this.onFinishTestTask}/>
+                <Button as="input" type="button" className="float-right" value={FINISH_TEST_BUTTON_LABEL}
+                        onClick={this.onFinishTestTask}/>
             </div>
         )
     }

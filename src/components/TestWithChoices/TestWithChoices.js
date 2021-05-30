@@ -72,10 +72,10 @@ class TestWithChoices extends React.Component {
                                         </div>
                                     </div>
                                 </Card.Body>
-                                {test.correctQuestion ? <Card.Footer className="light-green-background">
+                                {test.correctOption ? <Card.Footer className="light-green-background">
                     <span>
                         <span className="correct-answer">Правильна відповідь: </span>
-                        {test.correctQuestion}</span>
+                        {test.correctOption}</span>
                                 </Card.Footer> : <span/>}
                             </div>
                         </Card>

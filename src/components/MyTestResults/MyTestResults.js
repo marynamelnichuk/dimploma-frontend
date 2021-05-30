@@ -1,57 +1,54 @@
 import React from "react";
 import {Button, Col, Row, Table} from "react-bootstrap";
 import '../Global styles.css';
-import TestCreateForm from "../TestCreateForm/TestCreateForm";
 
 class MyTestResults extends React.Component {
 
+    componentDidMount() {
+        fetch(`http://localhost:8080/${this.props.userId}/testResults/myResults`)
+            .then(response => response.json())
+            .then(data => {
+                if(data) {
+                    this.setState(() => {
+                        return {
+                            testResults: data
+                        }
+                    });
+                }
+            });
+    }
+
     state = {
-        tests: [
-            {id: 1, testName: 'Тест перевірки знань C#', user: 'sofiia.predko.kn.2017@lpnu.ua',
-                estimation: 95, totalMark: 100, completeDate: '2021-04-04'},
-            {id: 1, testName: 'Тест перевірки знань з іспанської', user: 'sofiia.predko.kn.2017@lpnu.ua',
-                estimation: 175, totalMark: 200, completeDate: '2021-04-04'}
-        ],
+        testResults: [],
         addTest: false
     }
 
     onClickRef = (testTaskId) => {
-        const testTask = this.state.tests.find(testTask => testTask.id === testTaskId);
-        console.log('clicked testTask ', testTask);
         this.props.history.push(`/main/tasks/${testTaskId}`);
     }
 
-    onAddTest = () => {
-        this.setState(({addTest}) => {
-            return {
-                addTest: !addTest
-            }
-        });
-    }
 
     onAddedTest = (test) => {
-        this.setState(({tests, addTest}) => {
+        this.setState(({testResults, addTest}) => {
             return {
-                tests: [...tests, test],
+                testResults: [...testResults, test],
                 addTest: !addTest
             }
         });
-        console.log('ON ADDED');
     }
 
     render() {
-        /*href={`http://localhost:3000/main/tasklist/${testTask.id}`} o*/
-        const testTasks = this.state.tests.map((test, index=1) => {
+        const testTasks = this.state.testResults.map((test, index = 1) => {
             return (
                 <tr>
                     <td>{++index}</td>
                     <td><a onClick={() => this.onClickRef(test.id)}>
                         {test.testName}
                     </a></td>
-                    <td>{test.user}</td>
-                    <td>{test.estimation}</td>
-                    <td>{test.totalMark}</td>
-                    <td>{test.completeDate}</td>
+                    <td>{test.userEmail}</td>
+                    <td>{test.mark}</td>
+                    <td>{test.maxMark}</td>
+                    <td>{test.completedDate}</td>
                     <td>
                         <Button variant="primary" size="md" active className="ml-3">
                             <Row className="margin-auto">
@@ -64,7 +61,7 @@ class MyTestResults extends React.Component {
         })
 
         return (
-                    <span>
+            <span>
                         <Row className="mb-3 mt-5">
                     <Col><h2>Мої результати проходження</h2></Col>
                 </Row>

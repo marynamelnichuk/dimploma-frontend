@@ -8,7 +8,7 @@ class TestTaskCreate extends React.Component {
         question: null,
         type: SHORT_ANSWER,
         variants: [],
-        correctQuestion: null,
+        correctOption: null,
         displayOptions: false,
         optionsArr: [],
     }
@@ -43,19 +43,12 @@ class TestTaskCreate extends React.Component {
     }
 
     onSaveTask = () => {
-        // alert("ON SAVE TASK");
-        /*
-        * "question": "Hello?555",
-        "type": "SHORT_ANSWER",
-        "mark": 5,
-        "options": null,
-        "correctQuestion": "CORR"*/
         this.props.onAddedTestTask({
                 question: this.state.question,
                 type: this.state.type,
                 mark: this.state.mark,
                 options: this.state.optionsArr,
-                correctQuestion: this.state.correctQuestion
+                correctOption: this.state.correctOption
             }
         );
         this.setState(() => {
@@ -63,7 +56,7 @@ class TestTaskCreate extends React.Component {
                 question: null,
                 type: SHORT_ANSWER,
                 variants: [],
-                correctQuestion: null,
+                correctOption: null,
                 displayOptions: false,
                 optionsArr: []
             }
@@ -89,7 +82,7 @@ class TestTaskCreate extends React.Component {
     onCorrectAnswerChange = (event) => {
         this.setState(() => {
             return {
-                correctQuestion: event.target.value
+                correctOption: event.target.value
             }
         })
     }
@@ -98,7 +91,7 @@ class TestTaskCreate extends React.Component {
         this.setState(({optionsArr}) => {
             return {
                 optionsArr: [...optionsArr,
-                    {id: optionsArr.length+1, option: ''}]
+                    {id: optionsArr.length + 1, option: ''}]
             }
         })
     }
@@ -109,7 +102,7 @@ class TestTaskCreate extends React.Component {
             const optionsArrBefore = optionsArr.slice(0, index);
             const optionsArrAfter = optionsArr.slice(index + 1, optionsArr.length);
             return {
-                optionsArr : [...optionsArrBefore, {id: id, option: event.target.value}, ...optionsArrAfter]
+                optionsArr: [...optionsArrBefore, {id: id, option: event.target.value}, ...optionsArrAfter]
             }
         })
     }
@@ -120,7 +113,7 @@ class TestTaskCreate extends React.Component {
             const optionsArrBefore = optionsArr.slice(0, index);
             const optionsArrAfter = optionsArr.slice(index + 1, optionsArr.length);
             return {
-                optionsArr : [...optionsArrBefore, ...optionsArrAfter]
+                optionsArr: [...optionsArrBefore, ...optionsArrAfter]
             }
         })
     }
@@ -150,18 +143,20 @@ class TestTaskCreate extends React.Component {
                                 <div>{this.state.optionsArr.map(
                                     (elem) => {
                                         return (
-                                        <span key={elem.id}>
+                                            <span key={elem.id}>
                                             <Row>
                                             <Col xs="10"><Form.Group>
                                                 <Form.Control required type="text"
                                                               as="textarea" rows={1} placeholder="Введіть варіант"
-                                                onChange={(event) => this.handleChangeVariant(event, elem.id)}/>
+                                                              onChange={(event) => this.handleChangeVariant(event, elem.id)}/>
                                                 </Form.Group></Col>
-                                            <Col xs="2"><Button variant="light" onClick={(event) => this.onRemoveVariant(event, elem.id)}>Видалити</Button>
+                                            <Col xs="2"><Button variant="light"
+                                                                onClick={(event) => this.onRemoveVariant(event, elem.id)}>Видалити</Button>
                                             </Col>
                                             </Row>
                                         </span>
-                                    )}
+                                        )
+                                    }
                                 )}</div>
                                 <div><Button variant="light" onClick={this.onVariantAdded}>Додати варіант</Button></div>
                             </div> : <span></span>}

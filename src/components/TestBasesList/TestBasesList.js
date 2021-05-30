@@ -9,7 +9,7 @@ import TestBaseCreateForm from "../TestBaseCreateForm/TestBaseCreateForm";
 export default class TestBasesList extends React.Component {
 
     componentDidMount() {
-        fetch('http://localhost:8080/1/testbases')
+        fetch(`http://localhost:8080/${this.props.userId}/testbases`)
             .then(response => response.json())
             .then(data => {
                 this.setState(({testBases}) => {
@@ -20,26 +20,25 @@ export default class TestBasesList extends React.Component {
                         }
                     })
                     return {
-                        testBases: testBasesToSet
+                        testBases: testBasesToSet,
+                        isEmpty: testBasesToSet.length === 0
                     }
                 });
             });
     }
 
     state = {
-        testBases: [
-           /* {id: '1', title: 'Geography Test', description: 'Some description', createdDate: '2020-12-28'},
-            {id: '2', title: 'Geography Test2', description: 'Some description2', createdDate: '2021-12-28'},
-            {id: '3', title: 'Geography Test3', description: 'Some description3', createdDate: '2021-12-28'},
-            {id: '4', title: 'Geography Test4', description: 'Some description4', createdDate: '2021-12-28'}*/
-        ],
-        addTestBase: false
+        testBases: [],
+        addTestBase: false,
+        isEmpty: true
     }
 
     onDeleteTestBase = (testBaseIdToDelete) => {
-        fetch(`http://localhost:8080/1/testbases/${testBaseIdToDelete}`, { method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}})
-            .then(() => /*alert('HERREE2222')*/
+        fetch(`http://localhost:8080/${this.props.userId}/testbases/${testBaseIdToDelete}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(() =>
                 this.setState(({testBases}) => {
                     const index = testBases.findIndex((el) => el.id === testBaseIdToDelete);
                     const testBasesBefore = testBases.slice(0, index);
@@ -52,37 +51,27 @@ export default class TestBasesList extends React.Component {
     }
 
     onAddTestBase = (testBase) => {
-        /*const testBaseToAdd = {
-            id: this.state.testBases.length + 1,
-            title: testBase.title,
-            description: testBase.description,
-            createdDate: testBase.createdDate
-        };   */
         const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({name: testBase.title,
-                    category: testBase.category,
-                    description: testBase.description,
-                })
-            };
-            fetch('http://localhost:8080/1/testbases', requestOptions)
-                .then(response => response.json())
-                .then(data => this.setState(({testBases, addTestBase}) => {
-                                  return {
-                                      testBases: [...testBases, {
-                                          ...data,
-                                          title: data.name
-                                      }],
-                                      addTestBase: !addTestBase
-                                  }
-                              }));
-        /*this.setState(({testBases, addTestBase}) => {
-            return {
-                testBases: [...testBases, testBaseToAdd],
-                addTestBase: !addTestBase
-            }
-        });   */
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: testBase.title,
+                category: testBase.category,
+                description: testBase.description,
+            })
+        };
+        fetch(`http://localhost:8080/${this.props.userId}/testbases`, requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState(({testBases, addTestBase}) => {
+                return {
+                    testBases: [...testBases, {
+                        ...data,
+                        title: data.name
+                    }],
+                    isEmpty: false,
+                    addTestBase: !addTestBase
+                }
+            }));
     }
 
     onAddTestBaseClicked = () => {
@@ -94,11 +83,9 @@ export default class TestBasesList extends React.Component {
     }
 
     render() {
-
         const testBases = this.state.testBases.map(testBase => {
             return <TestBaseCard key={testBase.id} {...testBase} onDelete={() => this.onDeleteTestBase(testBase.id)}/>
         });
-
         return (
             <div>
                 {this.state.addTestBase ? <TestBaseCreateForm onAddTestBase={this.onAddTestBase}/> :
@@ -106,7 +93,8 @@ export default class TestBasesList extends React.Component {
                         <div className="test-bases-container-inner">
                             <h2>Бази тестових завдань</h2>
                             <p>
-                                На цій сторінці ви можете створювати та видаляти бази тестових завдань, для додавання тестових завдань до конкретної бази клікніть по ній.
+                                На цій сторінці ви можете створювати та видаляти бази тестових завдань, для додавання
+                                тестових завдань до конкретної бази клікніть по ній.
                             </p>
                             <div className="panel-creating-tes-base">
                                 <Button variant="primary" size="lg" active onClick={this.onAddTestBaseClicked}>
@@ -118,7 +106,7 @@ export default class TestBasesList extends React.Component {
                             </div>
                             <hr/>
                             <div className="display-flex">
-                                {testBases}
+                                {this.state.isEmpty ? <p>У базі ще немає тестових завдань</p> : testBases}
                             </div>
                         </div>
                     </div>

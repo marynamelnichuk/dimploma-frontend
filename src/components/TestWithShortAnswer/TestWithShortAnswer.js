@@ -2,7 +2,7 @@ import React from "react";
 import {Card, Col, Form, Row} from 'react-bootstrap';
 import '../Global styles.css';
 
-const TestWithShortAnswer = ({question, id, correctQuestion, mark, onAnswerChanged, viewMode}) => {
+const TestWithShortAnswer = ({question, id, correctOption, mark, onAnswerChanged, viewMode}) => {
 
     const onAnswerChange = (event) => {
         const answer = event.target.value
@@ -30,10 +30,10 @@ const TestWithShortAnswer = ({question, id, correctQuestion, mark, onAnswerChang
                                     </Form.Group>
                                 </div>
                             </Card.Body>
-                            {correctQuestion ? <Card.Footer className="light-green-background">
+                            {correctOption ? <Card.Footer className="light-green-background">
                     <span>
                         <span className="correct-answer">Правильна відповідь: </span>
-                        {correctQuestion}</span>
+                        {correctOption}</span>
                             </Card.Footer> : <span/>}
                         </div>
                     </Card>
